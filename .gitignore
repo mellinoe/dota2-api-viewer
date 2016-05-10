@@ -257,8 +257,5 @@ Session.vim
 # VS Code
 *.vscode
 
-xproj
-*.xproj
-
 # VS Launch options
 launchSettings.json
