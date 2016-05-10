@@ -15,12 +15,12 @@ namespace DotaApiViewer
             ArgumentSyntax.Parse(args, syntax =>
             {
                 syntax.DefineCommand("hero", ref command, Strings.HeroCommandDescription);
-                syntax.DefineOption("name", ref name, Strings.NameOptionDescription);
-                syntax.DefineOption("language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
+                syntax.DefineOption("n|name", ref name, Strings.NameOptionDescription);
+                syntax.DefineOption("l|language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
 
                 syntax.DefineCommand("item", ref command, Strings.ItemCommandDescription);
-                syntax.DefineOption("name", ref name, Strings.NameOptionDescription);
-                syntax.DefineOption("language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
+                syntax.DefineOption("n|name", ref name, Strings.NameOptionDescription);
+                syntax.DefineOption("l|language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
             });
 
             if (command == "hero")
