@@ -41,7 +41,8 @@ namespace DotaApiViewer
         {
             if (!_response.IsSuccessStatusCode)
             {
-                throw new DotApiViewerException(Strings.RequestFailed);
+                string errorMessage = _response.Content.ReadAsStringAsync().Result;
+                throw new DotApiViewerException(string.Format(Strings.RequestFailed, errorMessage));
             }
 
             JsonSerializer serializer = JsonSerializer.CreateDefault();
