@@ -1,4 +1,6 @@
-﻿namespace DotaApiViewer
+﻿using System;
+
+namespace DotaApiViewer
 {
     public static class FormatUtil
     {
@@ -10,6 +12,17 @@
         public static string ToCheckbox(this bool b)
         {
             return ToString(b, "[X]", "[ ]");
+        }
+
+        public static string ToQueryFormat(this Language l)
+        {
+            switch (l)
+            {
+                case Language.English:
+                    return "en";
+                default:
+                    throw new InvalidOperationException("Illegal Language value: " + l);
+            }
         }
     }
 }

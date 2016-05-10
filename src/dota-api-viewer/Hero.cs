@@ -23,7 +23,7 @@
 
         public override string ToString()
         {
-            return $"{Name} [{ID}], \"{LocalizedName}\"";
+            return $"{LocalizedName}, [{Name}, id:{ID}]";
         }
     }
 }

@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="HeroCommandDescription" xml:space="preserve">
+    <value>Access hero querying APIs.</value>
+  </data>
+  <data name="ItemCommandDescription" xml:space="preserve">
+    <value>Access item querying APIs.</value>
+  </data>
   <data name="KeyFileMissing" xml:space="preserve">
     <value>No API Key could be found. Set DOTA_API_VIEWER_KEY directly to specify the key. Set DOTA_API_VIEWER_KEYFILE or place a '{0}' file next to this program containing the key.</value>
+  </data>
+  <data name="LanguageOptionDescription" xml:space="preserve">
+    <value>The language to return localized strings in. Defaults to '{0}'.</value>
+  </data>
+  <data name="NameOptionDescription" xml:space="preserve">
+    <value>The name of the item or hero. If un-set, lists all heroes or items.</value>
+  </data>
+  <data name="NoMatchingHeroes" xml:space="preserve">
+    <value>No heroes matched the name {0}. Check your spelling and language.</value>
+  </data>
+  <data name="NoMatchingItems" xml:space="preserve">
+    <value>No items matched the name {0}. Check your spelling and language.</value>
   </data>
   <data name="RequestFailed" xml:space="preserve">
     <value>The web request failed. Error message: {0}</value>

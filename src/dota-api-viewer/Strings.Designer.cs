@@ -60,11 +60,65 @@ namespace DotaApiViewer {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Access hero querying APIs..
+        /// </summary>
+        public static string HeroCommandDescription {
+            get {
+                return ResourceManager.GetString("HeroCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Access item querying APIs..
+        /// </summary>
+        public static string ItemCommandDescription {
+            get {
+                return ResourceManager.GetString("ItemCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to No API Key could be found. Set DOTA_API_VIEWER_KEY directly to specify the key. Set DOTA_API_VIEWER_KEYFILE or place a &apos;{0}&apos; file next to this program containing the key..
         /// </summary>
         public static string KeyFileMissing {
             get {
                 return ResourceManager.GetString("KeyFileMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to The language to return localized strings in. Defaults to &apos;{0}&apos;..
+        /// </summary>
+        public static string LanguageOptionDescription {
+            get {
+                return ResourceManager.GetString("LanguageOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to The name of the item or hero. If un-set, lists all heroes or items..
+        /// </summary>
+        public static string NameOptionDescription {
+            get {
+                return ResourceManager.GetString("NameOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No heroes matched the name {0}. Check your spelling and language..
+        /// </summary>
+        public static string NoMatchingHeroes {
+            get {
+                return ResourceManager.GetString("NoMatchingHeroes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No items matched the name {0}. Check your spelling and language..
+        /// </summary>
+        public static string NoMatchingItems {
+            get {
+                return ResourceManager.GetString("NoMatchingItems", resourceCulture);
             }
         }
         
