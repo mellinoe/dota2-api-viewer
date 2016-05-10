@@ -141,4 +141,10 @@
   <data name="RequestFailed" xml:space="preserve">
     <value>The web request failed. Error message: {0}</value>
   </data>
+  <data name="MatchHistoryCommandDescription" xml:space="preserve">
+    <value>Access match history information.</value>
+  </data>
+  <data name="SteamIDCommandDescription" xml:space="preserve">
+    <value>Access Steam player profile information.</value>
+  </data>
 </root>

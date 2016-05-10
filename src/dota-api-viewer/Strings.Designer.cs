@@ -96,6 +96,15 @@ namespace DotaApiViewer {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Access match history information..
+        /// </summary>
+        public static string MatchHistoryCommandDescription {
+            get {
+                return ResourceManager.GetString("MatchHistoryCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to The name of the item or hero. If un-set, lists all heroes or items..
         /// </summary>
         public static string NameOptionDescription {
@@ -128,6 +137,15 @@ namespace DotaApiViewer {
         public static string RequestFailed {
             get {
                 return ResourceManager.GetString("RequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Access Steam player profile information..
+        /// </summary>
+        public static string SteamIDCommandDescription {
+            get {
+                return ResourceManager.GetString("SteamIDCommandDescription", resourceCulture);
             }
         }
     }

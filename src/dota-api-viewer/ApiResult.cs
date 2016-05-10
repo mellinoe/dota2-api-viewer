@@ -31,7 +31,7 @@ namespace DotaApiViewer
 
             using (var jsonReader = new JsonTextReader(new StringReader(_response.Content.ReadAsStringAsync().Result)))
             {
-                return serializer.Deserialize<ApiResultHolder>(jsonReader).Result;
+                return serializer.Deserialize<T>(jsonReader);
             }
         }
 
@@ -39,11 +39,6 @@ namespace DotaApiViewer
         {
             _response = response;
             _lazyValue = new Lazy<T>(DeserializeResult);
-        }
-
-        private class ApiResultHolder
-        {
-            public T Result { get; set; }
         }
     }
 }

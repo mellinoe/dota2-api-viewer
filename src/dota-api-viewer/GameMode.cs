@@ -2,6 +2,7 @@
 {
     public enum GameMode
     {
+        Any = -1,
         None,
         AllPick,
         CaptainsMode,

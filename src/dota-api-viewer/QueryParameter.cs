@@ -10,5 +10,10 @@
             Key = key;
             Value = value;
         }
+        
+        public static QueryParameter Create<T>(string key, T value)
+        {
+            return new QueryParameter(key, value.ToString());
+        }
     }
 }
