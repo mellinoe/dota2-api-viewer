@@ -29,7 +29,7 @@ namespace DotaApiViewer
         public string MatchSequenceNumber { get; set; }
 
         [JsonProperty(PropertyName = "start_time")]
-        public int StartTime { get; set; }
+        public uint StartTime { get; set; }
 
         [JsonProperty(PropertyName = "lobby_type")]
         public LobbyType LobbyType { get; set; }

@@ -10,6 +10,7 @@ namespace DotaApiViewer
         {
             string command = null;
             string name = null;
+            string heroID = null;
             Language language = Language.English;
 
             MatchHistoryQueryOptions mhqo = new MatchHistoryQueryOptions();
@@ -19,6 +20,7 @@ namespace DotaApiViewer
             {
                 syntax.DefineCommand("hero", ref command, Strings.HeroCommandDescription);
                 syntax.DefineOption("n|name", ref name, Strings.NameOptionDescription);
+                syntax.DefineOption("id|heroid", ref heroID, "Return information about the hero with this ID.");
                 syntax.DefineOption("l|language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
 
                 syntax.DefineCommand("item", ref command, Strings.ItemCommandDescription);
@@ -44,7 +46,7 @@ namespace DotaApiViewer
 
             if (command == "hero")
             {
-                HeroCommand(name, language);
+                HeroCommand(name, heroID, language);
             }
             else if (command == "item")
             {
@@ -70,9 +72,16 @@ namespace DotaApiViewer
             }
         }
 
+        private static DateTime ConvertUnixTime(uint time)
+        {
+            DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return start.AddSeconds(time).ToLocalTime();
+        }
+
         private static void PrintPlayerSummary(SteamPlayerSummary player)
         {
-            Console.WriteLine($"{player.PersonaName} [{player.SteamID}], {player.ProfileUrl}, Last Online: {player.LastLogOffTime}");
+            var lastLogOffLocal = ConvertUnixTime(player.LastLogOffTime);
+            Console.WriteLine($"{player.PersonaName} [{player.SteamID}], {player.ProfileUrl}, Last Log Off: {lastLogOffLocal}");
         }
 
         private static void MatchHistoryCommand(MatchHistoryQueryOptions mhqo)
@@ -94,12 +103,12 @@ namespace DotaApiViewer
             var playerQuery = ApiMethods.GetSteamProfileSummaries(ApiKey.UserKey, steamIDs).Execute().Result.Value.Response;
             var players = playerQuery.Players;
 
-            Console.WriteLine($"{ms.LobbyType} ({ms.MatchID}) [{ms.Players.Length} players] Start time: {ms.StartTime}");
+            Console.WriteLine($"{ms.LobbyType} ID:{ms.MatchID} [{ms.Players.Length} players] Start time: {ConvertUnixTime(ms.StartTime)}");
             foreach (var player in ms.Players)
             {
                 string personaName = players.SingleOrDefault(p => p.SteamID == Convert32to64BitID(player.SteamID))?.PersonaName;
                 Console.WriteLine(
-                    $"  * {personaName ?? "<unknown>"} ({player.SteamID}), Hero:{HeroCache.GetHeroByID(player.HeroID).LocalizedName}({player.HeroID})");
+                    $"  * {personaName ?? "<unknown>"} ({player.SteamID}), Hero:{HeroCache.GetHeroByID(player.HeroID).LocalizedName} ({player.HeroID})");
             }
         }
 
@@ -147,20 +156,33 @@ namespace DotaApiViewer
             }
         }
 
-        private static void HeroCommand(string name, Language language)
+        private static void HeroCommand(string name, string heroIDString, Language language)
         {
+            if (name != null && heroIDString != null)
+            {
+                Console.WriteLine("Name and HeroID are both specified. Ignoring HeroID.");
+            }
+
+            int heroID = -1;
+            if (!string.IsNullOrEmpty(heroIDString) && !int.TryParse(heroIDString, out heroID))
+            {
+                throw new InvalidOperationException("Couldn't parse hero ID: " + heroIDString);
+            }
+
             var heroQueryResult = ApiMethods.GetAllHeroes(ApiKey.UserKey, language).Execute().Result;
             Hero[] heroes = heroQueryResult.Value.Result.Heroes;
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name) || !string.IsNullOrEmpty(heroIDString))
             {
-                foreach (var hero in heroes)
+                Func<Hero, bool> filter;
+                if (!string.IsNullOrEmpty(name))
                 {
-                    Console.WriteLine(hero);
+                    filter = h => h.LocalizedName == name;
                 }
-            }
-            else
-            {
-                var matchingHeroes = heroes.Where(h => h.LocalizedName == name);
+                else
+                {
+                    filter = h => h.ID == heroID;
+                }
+                var matchingHeroes = heroes.Where(filter);
                 if (!matchingHeroes.Any())
                 {
                     Console.WriteLine(string.Format(Strings.NoMatchingHeroes, name));
@@ -171,6 +193,13 @@ namespace DotaApiViewer
                     {
                         Console.WriteLine(hero);
                     }
+                }
+            }
+            else
+            {
+                foreach (var hero in heroes)
+                {
+                    Console.WriteLine(hero);
                 }
             }
         }

@@ -14,7 +14,7 @@ namespace DotaApiViewer
         public int ProfileState { get; set; }
         public string PersonaName { get; set; }
         [JsonProperty(PropertyName = "lastlogoff")]
-        public int LastLogOffTime { get; set; }
+        public uint LastLogOffTime { get; set; }
         public string ProfileUrl { get; set; }
         public string Avatar { get; set; }
         public string AvatarMedium { get; set; }
