@@ -28,17 +28,17 @@ namespace DotaApiViewer
                 syntax.DefineOption("l|language", ref language, ParseLanguage, string.Format(Strings.LanguageOptionDescription, language));
 
                 syntax.DefineCommand("matchhistory", ref command, Strings.MatchHistoryCommandDescription);
-                syntax.DefineOption("heroid", ref mhqo.HeroID, "Filter results to matches containing this hero ID. Use the \"hero\" command to enumerate hero IDs.");
+                syntax.DefineOption("h|heroid", ref mhqo.HeroID, "Filter results to matches containing this hero ID. Use the \"hero\" command to enumerate hero IDs.");
                 syntax.DefineOption("gamemode", ref mhqo.GameMode, ParseGameMode, "Filter matches to this game mode.");
-                syntax.DefineOption("skilllevel", ref mhqo.SkillLevel, ParseSkillLevel, "Filter matches to this skill level.");
+                syntax.DefineOption("s|skilllevel", ref mhqo.SkillLevel, ParseSkillLevel, "Filter matches to this skill level.");
                 syntax.DefineOption("mindate", ref mhqo.MinDate, "Filter matches to after this date.");
                 syntax.DefineOption("maxdate", ref mhqo.MaxDate, "Filter matches to before this date.");
                 syntax.DefineOption("minplayers", ref mhqo.MinPlayers, "Filter to matches with at least this many players.");
-                syntax.DefineOption("accountid", ref mhqo.AccountID, "Filter matches to those containing this Steam account ID.");
+                syntax.DefineOption("a|accountid", ref mhqo.AccountID, "Filter matches to those containing this Steam account ID.");
                 syntax.DefineOption("leagueid", ref mhqo.LeagueID, "Filter matches to those from this league.");
                 syntax.DefineOption("startatmatchid", ref mhqo.StartAtMatchID, "Filter matches to those after this match ID.");
-                syntax.DefineOption("matchesrequested", ref mhqo.MatchesRequested, "The number of matches to include.");
-                syntax.DefineOption("tournamentgamesonly", ref mhqo.TournamentGamesOnly, "Filter to official tournament matches only.");
+                syntax.DefineOption("n|count|matchesrequested", ref mhqo.MatchesRequested, "The number of matches to include.");
+                syntax.DefineOption("t|tournamentgamesonly", ref mhqo.TournamentGamesOnly, "Filter to official tournament matches only.");
 
                 syntax.DefineCommand("steamid", ref command, Strings.SteamIDCommandDescription);
                 syntax.DefineOption("ids", ref steamIDs, "a comma-separated list of Steam IDs to query.");
