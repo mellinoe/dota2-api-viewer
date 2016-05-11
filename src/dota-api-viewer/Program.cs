@@ -112,7 +112,7 @@ namespace DotaApiViewer
             }
         }
 
-        private const ulong conversionConstant = 76561198121710206u - 161444478;
+        private const ulong conversionConstant = 76561197960265728u;
 
         private static string Convert64to32BitID(string accountID)
         {
