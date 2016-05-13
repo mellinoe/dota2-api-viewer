@@ -52,6 +52,7 @@ namespace DotaApiViewer
         public int HeroHealing { get; set; }
         [JsonProperty(PropertyName = "ability_upgrades")]
         public AbilityUpgrade[] AbilityUpgrades { get; set; }
-
+        [JsonProperty(PropertyName = "additional_units")]
+        public AdditionalUnit[] AdditionalUnits { get; set; }
     }
 }

@@ -117,6 +117,20 @@ namespace DotaApiViewer
             Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item3)?.LocalizedName}");
             Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item4)?.LocalizedName}");
             Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item5)?.LocalizedName}");
+            if (player.AdditionalUnits != null)
+            {
+                Console.WriteLine($"   - Additional Units");
+                foreach (var au in player.AdditionalUnits)
+                {
+                    Console.WriteLine($"      * {au.UnitName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item0)?.LocalizedName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item1)?.LocalizedName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item2)?.LocalizedName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item3)?.LocalizedName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item4)?.LocalizedName}");
+                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item5)?.LocalizedName}");
+                }
+            }
         }
 
         private static void SteamIDCommand(string steamIDs)
