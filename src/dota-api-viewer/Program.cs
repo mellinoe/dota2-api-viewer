@@ -16,6 +16,8 @@ namespace DotaApiViewer
             MatchHistoryQueryOptions mhqo = new MatchHistoryQueryOptions();
             string steamIDs = null;
 
+            string matchID = null;
+
             ArgumentSyntax.Parse(args, syntax =>
             {
                 syntax.DefineCommand("hero", ref command, Strings.HeroCommandDescription);
@@ -40,6 +42,9 @@ namespace DotaApiViewer
                 syntax.DefineOption("n|count|matchesrequested", ref mhqo.MatchesRequested, "The number of matches to include.");
                 syntax.DefineOption("t|tournamentgamesonly", ref mhqo.TournamentGamesOnly, "Filter to official tournament matches only.");
 
+                syntax.DefineCommand("matchdetails", ref command, Strings.MatchDetailsCommandDescription);
+                syntax.DefineOption("id|matchid", ref matchID, "The ID of the match to query.");
+
                 syntax.DefineCommand("steamid", ref command, Strings.SteamIDCommandDescription);
                 syntax.DefineOption("ids", ref steamIDs, "a comma-separated list of Steam IDs to query.");
             });
@@ -56,10 +61,54 @@ namespace DotaApiViewer
             {
                 MatchHistoryCommand(mhqo);
             }
+            else if (command == "matchdetails")
+            {
+                MatchDetailsCommand(matchID);
+            }
             else if (command == "steamid")
             {
                 SteamIDCommand(steamIDs);
             }
+        }
+
+        private static void MatchDetailsCommand(string matchIDString)
+        {
+            long matchID;
+            if (!long.TryParse(matchIDString, out matchID))
+            {
+                throw new InvalidOperationException("Invalid match ID: " + matchIDString);
+            }
+
+            var matchDetailsQueryResult = ApiMethods.GetMatchDetails(ApiKey.UserKey, matchID).Execute().Result;
+            var result = matchDetailsQueryResult.Value.Result;
+
+            Console.WriteLine($"Match {result.MatchID}, {result.LobbyType}, {result.GameMode}");
+            var steamIDs = string.Join(",", result.PlayerResults.Select(pr => Convert32to64BitID((ulong)pr.SteamID)));
+            var playerQuery = ApiMethods.GetSteamProfileSummaries(ApiKey.UserKey, steamIDs).Execute().Result.Value.Response;
+            var players = playerQuery.Players;
+
+            foreach (var player in result.PlayerResults)
+            {
+                PrintPlayerResult(
+                    player,
+                    playerQuery.Players.SingleOrDefault(p => p.SteamID == Convert32to64BitID((ulong)player.SteamID))?.PersonaName);
+                Console.WriteLine();
+            }
+        }
+
+        private static void PrintPlayerResult(PlayerResult player, string accountName)
+        {
+            string dispName = accountName != null ? accountName : player.SteamID.ToString();
+            Console.WriteLine($" - {dispName}, Level {player.Level} {HeroCache.GetHeroByID(player.HeroID).LocalizedName}, {new PlayerSlot(player.PlayerSlot)}");
+            Console.WriteLine($"   - GPM:{player.GoldPerMinute}, XPM:{player.ExperiencePerMinute}, Gold:{player.Gold}");
+            Console.WriteLine($"   - KDA:{player.Kills}/{player.Deaths}/{player.Assists}, LHD:{player.LastHits}/{player.Denies}, HD/TD/HH{player.HeroDamage}/{player.TowerDamage}/{player.HeroHealing}");
+            Console.WriteLine($"   - Items:");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item0)?.LocalizedName}");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item1)?.LocalizedName}");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item2)?.LocalizedName}");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item3)?.LocalizedName}");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item4)?.LocalizedName}");
+            Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item5)?.LocalizedName}");
         }
 
         private static void SteamIDCommand(string steamIDs)
@@ -124,6 +173,11 @@ namespace DotaApiViewer
         private static string Convert32to64BitID(string accountID)
         {
             ulong id32 = ulong.Parse(accountID);
+            return Convert32to64BitID(id32);
+        }
+
+        private static string Convert32to64BitID(ulong id32)
+        {
             ulong id64 = id32 + conversionConstant;
             return id64.ToString();
         }

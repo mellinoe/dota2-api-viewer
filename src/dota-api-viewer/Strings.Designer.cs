@@ -96,6 +96,15 @@ namespace DotaApiViewer {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Access detailed match information..
+        /// </summary>
+        public static string MatchDetailsCommandDescription {
+            get {
+                return ResourceManager.GetString("MatchDetailsCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Access match history information..
         /// </summary>
         public static string MatchHistoryCommandDescription {

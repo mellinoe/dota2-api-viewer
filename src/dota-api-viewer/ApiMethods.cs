@@ -69,6 +69,14 @@ namespace DotaApiViewer
             return new ApiQuery<ResultHolder<MatchHistoryQueryResult>>("IDOTA2Match_570/GetMatchHistory/v1", apiKey, parameters.ToArray());
         }
 
+        public static ApiQuery<ResultHolder<MatchDetailsQueryResult>> GetMatchDetails(string apiKey, long matchID)
+        {
+            return new ApiQuery<ResultHolder<MatchDetailsQueryResult>>(
+                "IDOTA2Match_570/GetMatchDetails/v1",
+                apiKey,
+                QueryParameter.Create("match_id", matchID));
+        }
+
         public static ApiQuery<ResponseHolder<PlayerSummaryQueryResult>> GetSteamProfileSummaries(string apiKey, string steamIDs)
         {
             return new ApiQuery<ResponseHolder<PlayerSummaryQueryResult>>(

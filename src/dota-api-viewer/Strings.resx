@@ -147,4 +147,7 @@
   <data name="SteamIDCommandDescription" xml:space="preserve">
     <value>Access Steam player profile information.</value>
   </data>
+  <data name="MatchDetailsCommandDescription" xml:space="preserve">
+    <value>Access detailed match information.</value>
+  </data>
 </root>
