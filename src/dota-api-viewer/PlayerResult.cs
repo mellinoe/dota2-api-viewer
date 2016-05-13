@@ -5,7 +5,7 @@ namespace DotaApiViewer
     public class PlayerResult
     {
         [JsonProperty(PropertyName = "account_id")]
-        public int SteamID { get; set; }
+        public uint SteamID { get; set; }
         [JsonProperty(PropertyName = "player_slot")]
         public byte PlayerSlot { get; set; }
         [JsonProperty(PropertyName = "hero_id")]
