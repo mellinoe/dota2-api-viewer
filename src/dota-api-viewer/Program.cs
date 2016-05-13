@@ -82,11 +82,19 @@ namespace DotaApiViewer
             var matchDetailsQueryResult = ApiMethods.GetMatchDetails(ApiKey.UserKey, matchID).Execute().Result;
             var result = matchDetailsQueryResult.Value.Result;
 
-            Console.WriteLine($"Match {result.MatchID}, {result.LobbyType}, {result.GameMode}");
+
+            Console.WriteLine($"Match {result.MatchID}, {result.LobbyType}, {result.GameMode}, Duration:{TimeSpan.FromSeconds(result.Duration)}");
             var steamIDs = string.Join(",", result.PlayerResults.Select(pr => Convert32to64BitID((ulong)pr.SteamID)));
             var playerQuery = ApiMethods.GetSteamProfileSummaries(ApiKey.UserKey, steamIDs).Execute().Result.Value.Response;
             var players = playerQuery.Players;
 
+            Console.WriteLine($"{(result.RadiantWin ? "Radiant" : "Dire")} Victory, Score:{result.RadiantScore}-{result.DireScore}");
+            Console.WriteLine($"Radiant Towers: {result.TowerStatusRadiant}");
+            Console.WriteLine($"Dire Towers: {result.TowerStatusDire}");
+            Console.WriteLine($"Radiant Barracks: {result.BarracksStatusRadiant}");
+            Console.WriteLine($"Dire Barracks: {result.BarracksStatusDire}");
+
+            Console.WriteLine("Players:");
             foreach (var player in result.PlayerResults)
             {
                 PrintPlayerResult(
