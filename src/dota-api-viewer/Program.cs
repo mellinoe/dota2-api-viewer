@@ -48,26 +48,33 @@ namespace DotaApiViewer
                 syntax.DefineCommand("steamid", ref command, Strings.SteamIDCommandDescription);
                 syntax.DefineOption("ids", ref steamIDs, "a comma-separated list of Steam IDs to query.");
             });
-
-            if (command == "hero")
+            try
             {
-                HeroCommand(name, heroID, language);
+                if (command == "hero")
+                {
+                    HeroCommand(name, heroID, language);
+                }
+                else if (command == "item")
+                {
+                    ItemCommand(name, language);
+                }
+                else if (command == "matchhistory")
+                {
+                    MatchHistoryCommand(mhqo);
+                }
+                else if (command == "matchdetails")
+                {
+                    MatchDetailsCommand(matchID);
+                }
+                else if (command == "steamid")
+                {
+                    SteamIDCommand(steamIDs);
+                }
             }
-            else if (command == "item")
+            catch (Exception e)
             {
-                ItemCommand(name, language);
-            }
-            else if (command == "matchhistory")
-            {
-                MatchHistoryCommand(mhqo);
-            }
-            else if (command == "matchdetails")
-            {
-                MatchDetailsCommand(matchID);
-            }
-            else if (command == "steamid")
-            {
-                SteamIDCommand(steamIDs);
+                Console.WriteLine("Exception encountered during run.");
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -119,16 +126,15 @@ namespace DotaApiViewer
             Console.WriteLine($"     * {ItemCache.GetItemByID(player.Item5)?.LocalizedName}");
             if (player.AdditionalUnits != null)
             {
-                Console.WriteLine($"   - Additional Units");
                 foreach (var au in player.AdditionalUnits)
                 {
-                    Console.WriteLine($"      * {au.UnitName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item0)?.LocalizedName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item1)?.LocalizedName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item2)?.LocalizedName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item3)?.LocalizedName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item4)?.LocalizedName}");
-                    Console.WriteLine($"        * {ItemCache.GetItemByID(au.Item5)?.LocalizedName}");
+                    Console.WriteLine($"   - {au.UnitName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item0)?.LocalizedName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item1)?.LocalizedName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item2)?.LocalizedName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item3)?.LocalizedName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item4)?.LocalizedName}");
+                    Console.WriteLine($"     * {ItemCache.GetItemByID(au.Item5)?.LocalizedName}");
                 }
             }
         }
